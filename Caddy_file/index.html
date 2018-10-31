@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+</script>
+</head>
+
+<body>
+<p>This example uses the HTML DOM to assign an "onclick" event to a p element.</p>
+
+<div id="div1"><h2>Upload Speed</h2></div>
+<button>Throughput</button>
+<canvas id="myChart"></canvas>
+<script>
+
+
+var t1, t2, t3, throughput, sum10, avg10;
+sum10 = 0;
+var currentFile_size = 10;
+var results = [1,2,3,4,5,6,7,8,9,10,11];
+var index = 0;
+function success_callback(result)
+{
+	t2 = new Date().getTime();
+	t3 = (t2 - t1) / 1000;
+	throughput = currentFile_size / t3 / 0.125;
+	results[index] += throughput;
+	 console.log( currentFile_size+ " MB throughput is: " + throughput + " Mbps");
+	 console.log("currentFile_size is: " + currentFile_size);
+	 console.log(result[index]);
+}
+
+function error_callback(result)
+{
+	$("#div1").html("cannot load content");
+}
+
+function myFunction()
+{
+	
+		var i;
+	
+		for(i = 0; i < 10; i++)
+		{
+			t1 = new Date().getTime();
+			currentFile_size = 0.01;
+			var fileName = "10K_"+i+".txt";
+			$.ajax({url: fileName,
+			success: success_callback,
+			error: error_callback,
+			cache: false,
+			ifModified: true,
+			async: false});
+		}
+		index++;
+		for(i = 0; i < 10; i++)
+		{
+
+			t1 = new Date().getTime();
+			currentFile_size = 0.02;
+			var fileName = "20K_"+i+".txt";
+			$.ajax({url: fileName,
+			success: success_callback,
+			error: error_callback,
+			cache: false,
+			ifModified: true,
+			async: false});
+		}
+		index++;
+		for(i = 0; i < 10; i++)
+		{
+			t1 = new Date().getTime();
+			currentFile_size = 0.05;
+			var fileName = "50K_"+i+".txt";
+			$.ajax({url: fileName,
+			success: success_callback,
+			error: error_callback,
+			cache: false,
+			ifModified: true,
+			async: false});
+		}
+		index++;
+
+		for(i = 0; i < 10; i++)
+		{
+			t1 = new Date().getTime();
+			currentFile_size = 0.1;
+			var fileName = "100K_" + i + ".txt";
+			$.ajax({url: fileName,
+			success: success_callback,
+			error: error_callback,
+			cache: false,
+			ifModified: true,
+			async: false});
+		}
+		index++;
+
+		for(i = 0; i < 10; i++)
+		{
+			t1 = new Date().getTime();
+			currentFile_size = 0.2;
+			var fileName = "200K_" + i + ".txt";
+			$.ajax({url: fileName,
+			success: success_callback,
+			error: error_callback,
+			cache: false,
+			ifModified: true,
+			async: false});
+		}
+		index++;
+
+		for(i = 0; i < 10; i++)
+		{
+			t1 = new Date().getTime();
+			currentFile_size = 0.5;
+			var fileName = "500K_" + i + ".txt";
+			$.ajax({url: fileName,
+			success: success_callback,
+			error: error_callback,
+			cache: false,
+			ifModified: true,
+			async: false});
+		}
+		index++;
+
+		for(i = 0; i < 10; i++)
+		{
+			t1 = new Date().getTime();
+			currentFile_size = 1;
+			var fileName = "1M_" + i + ".txt";
+			$.ajax({url: fileName,
+			success: success_callback,
+			error: error_callback,
+			cache: false,
+			ifModified: true,
+			async: false});
+		}
+		index++;
+
+		for(i = 0; i < 10; i++)
+		{
+			t1 = new Date().getTime();
+			currentFile_size = 10;
+			var fileName = "10M_"+(i)+".txt";
+			$.ajax({url: fileName,
+			success: success_callback,
+			error: error_callback,
+			cache: false,
+			ifModified: true,
+			async: false});
+		}
+		index++;
+
+		for(i = 0; i < 10; i++)
+		{
+			t1 = new Date().getTime();
+			currentFile_size = 20;
+			var fileName = "20M_"+i+".txt";
+			$.ajax({url: fileName,
+			success: success_callback,
+			error: error_callback,
+			cache: false,
+			ifModified: true,
+			async: false});
+		}
+
+		index++;
+		for(i = 0; i < 10; i++)
+		{
+			t1 = new Date().getTime();
+			currentFile_size = 50;
+			var fileName = "50M_" + i + ".txt";
+			$.ajax({url: fileName,
+			success: success_callback,
+			error: error_callback,
+			cache: false,
+			ifModified: true,
+			async: false});
+		}
+		index++;
+
+		for(i = 0; i < 10; i++)
+		{
+			t1 = new Date().getTime();
+			currentFile_size = 100;
+			var fileName = "100M_" + i + ".txt";
+			$.ajax({url: fileName,
+			success: success_callback,
+			error: error_callback,
+			cache: false,
+			ifModified: true,
+			async: false});
+		}
+
+		for(i = 0; i < results.length; i++)
+		{
+				results[i] = results[i] / 10;
+		}
+		 $.ajax({
+        success: myGraph,
+        async: false
+    });
+	
+}
+
+function myGraph()
+{
+	var ctx = document.getElementById('myChart').getContext('2d');
+	var chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'line',
+
+    // The data for our dataset
+    data: {
+        labels: ["10KB", "20KB", "50KB", "100KB", "200KB", "500KB", "1MB", 	"10MB", "20MB", "50MB", "100MB"],
+        datasets: [{
+            label: "Throughput and File Size",
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: [results[0], results[1],results[2], results[3], results[4], results[5], results[6], results[7], results[8], results[9], results[10]],
+        }]
+    },
+
+    // Configuration options go here
+    options: {}
+});
+	//console.log(throughput1 + "-------------" + throughput2);
+}
+
+$(document).ready(function(){
+	$("button").click(myFunction);
+})
+
+
+
+</script>
+
+</body>
+
+</html>

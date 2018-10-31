@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+</script>
+</head>
+
+<body>
+<p>This example uses the HTML DOM to assign an "onclick" event to a p element.</p>
+<!--
+<p id="demo"></p>
+
+<img id="image">
+-->
+<div id="div1"><h2>Upload Speed</h2></div>
+<button>Click me</button>
+<canvas id="myChart"></canvas>
+<script>
+//  $("#demo").click(function(){
+//alert("The paragraph is now hidden");
+ 
+//});
+
+
+
+// document.getElementById("demo").onclick = function(){myFunction(function(t1){
+//   console.log("t1: " + t1);
+//   var t2 = new Date().getTime();
+//   console.log("t2: " + t2);
+//    var t3 = (t2 - t1)/1000;
+//     console.log("Totally takes: " + t3 + " sec\n");
+// })};
+
+// function myFunction(callback)
+// {
+//   var t1 = new Date().getTime(); 
+//   //alert("This is my function");
+//   document.getElementById("image").src = "Manor.jpg";
+//   callback(t1);
+// }
+
+var t1, t2, t3, throughput10, throughput100, throughput200, throughput300, throughput400, throughput500, sum10, avg10;
+sum10 = 0;
+function success_10MB_callback(result)
+{
+    t2 = new Date().getTime();
+    t3 = (t2 - t1) / 1000;
+    throughput10 = 10 / t3 / 0.125;
+    sum10 += throughput10;
+    avg10 = sum10 / 10;
+    //$("#div1").html("10 MB throughput is: " + throughput + "Mbps");
+     console.log("10 MB throughput is: " + throughput10 + " Mbps");
+     console.log("10 times average throughput is: " +  avg10 + " Mbps");
+}
+
+function success_100MB_callback(result)
+{
+    t2 = new Date().getTime();
+    t3 = (t2 - t1) / 1000;
+    throughput100 = 100 / t3 / 0.125;
+    //sum += throughput;
+    //avg = sum / 10;
+    //$("#div1").html("100 MB throughput is: " + throughput + "Mbps");
+     console.log("100 MB throughput is: " + throughput100 + " Mbps");
+    // console.log("10 times average throughput is: " +  avg + " Mbps");
+}
+
+function success_200MB_callback(result)
+{
+    t2 = new Date().getTime();
+    t3 = (t2 - t1) / 1000;
+    throughput200 = 200 / t3 / 0.125;
+    //sum += throughput;
+    //avg = sum / 10;
+    //$("#div1").html("100 MB throughput is: " + throughput + "Mbps");
+     console.log("200 MB throughput is: " + throughput200 + " Mbps");
+    // console.log("10 times average throughput is: " +  avg + " Mbps");
+}
+
+function success_300MB_callback(result)
+{
+    t2 = new Date().getTime();
+    t3 = (t2 - t1) / 1000;
+    throughput300 = 300 / t3 / 0.125;
+    //sum += throughput;
+    //avg = sum / 10;
+    //$("#div1").html("100 MB throughput is: " + throughput + "Mbps");
+     console.log("300 MB throughput is: " + throughput300 + " Mbps");
+    // console.log("10 times average throughput is: " +  avg + " Mbps");
+}
+
+function success_400MB_callback(result)
+{
+    t2 = new Date().getTime();
+    t3 = (t2 - t1) / 1000;
+    throughput400 = 400 / t3 / 0.125;
+    //sum += throughput;
+    //avg = sum / 10;
+    //$("#div1").html("100 MB throughput is: " + throughput + "Mbps");
+    console.log("t1: " + t1 + " t2: " + t2 + " t3: " + t3);
+     console.log("400 MB throughput is: " + throughput400 + " Mbps");
+    // console.log("10 times average throughput is: " +  avg + " Mbps");
+}
+
+function success_500MB_callback(result)
+{
+    t2 = new Date().getTime();
+    t3 = (t2 - t1) / 1000;
+    throughput500 = 500 / t3 / 0.125;
+    //sum += throughput;
+    //avg = sum / 10;
+    //$("#div1").html("100 MB throughput is: " + throughput + "Mbps");
+     console.log("500 MB throughput is: " + throughput500 + " Mbps");
+    // console.log("10 times average throughput is: " +  avg + " Mbps");
+}
+
+
+function error_callback(result)
+{
+    $("#div1").html("cannot load content");
+}
+
+function myFunction()
+{
+    
+        var i;
+    //t1 = new Date().getTime();
+    for(i = 0; i < 10; i++)
+    {
+        t1 = new Date().getTime();
+        $.ajax({url: "10M.txt",
+        success: success_10MB_callback,
+        error: error_callback,
+        cache: false,
+        ifModified: true,
+        async: false});
+    }
+    t1 = new Date().getTime();
+    $.ajax({url: "100M.txt",
+        success: success_100MB_callback,
+        error: error_callback,
+        cache: false,
+        ifModified: true,
+        async: false});
+    t1 = new Date().getTime();
+    $.ajax({url: "200M.txt",
+        success: success_200MB_callback,
+        error: error_callback,
+        cache: false,
+        ifModified: true,
+        async: false});
+    t1 = new Date().getTime();
+    $.ajax({url: "300M.txt",
+        success: success_300MB_callback,
+        error: error_callback,
+        cache: false,
+        ifModified: true,
+        async: false});
+    t1 = new Date().getTime();
+    $.ajax({url: "400M.txt",
+        success: success_400MB_callback,
+        error: error_callback,
+        cache: false,
+        ifModified: true,
+        async: false});
+    // t1 = new Date().getTime();
+    // $.ajax({url: "500M.txt",
+    //  success: success_500MB_callback,
+    //  error: error_callback,
+    //  cache: false,
+    //  ifModified: true,
+    //  async: false});
+    $.ajax({
+        success: myGraph,
+        async: false
+    });
+    
+}
+
+function myGraph()
+{
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'line',
+
+    // The data for our dataset
+    data: {
+        labels: ["10MB", "100MB", "200MB", "300MB", "400MB", "500MB"],
+        datasets: [{
+            label: "Throughput and File Size",
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: [throughput10, throughput100, throughput200, throughput300, throughput400, throughput500],
+        }]
+    },
+
+    // Configuration options go here
+    options: {}
+});
+    //console.log(throughput1 + "-------------" + throughput2);
+}
+
+$(document).ready(function(){
+    $("button").click(myFunction);
+})
+
+
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,6 @@
+localhost:8888
+gzip
+browse
+log C:\\Caddy\\caddy_v0.11.0_windows_amd64_personal\\log\\logfile
+errors C:\\Caddy\\caddy_v0.11.0_windows_amd64_personal\\error\\errorFile
+tls C:\\Caddy\\certificate\\server.crt C:\\Caddy\\certificate\\server.key
