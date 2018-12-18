@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+</script>
+</head>
+
+<body>
+<p>This example uses the HTML DOM to assign an "onclick" event to a p element.</p>
+<div id="div1"><h2>Latency</h2></div>
+<button onClick="myFunction()">Latency</button>
+<canvas id="myChart"></canvas>
+<script>
+
+
+var t1, t2, t3, times;
+var results = [0,0,0,0,0,0,0,0,0,0];
+var index = 0;
+
+function success_callback(result)
+{
+	t2 = new Date().getTime();
+	t3 = (t2 - t1) / 1000;
+	results[index++] = t3;
+	console.log("Latency is :" + t3 + " s");
+	
+}
+
+function error_callback(result)
+{
+	$("#div1").html("cannot load content");
+}
+
+
+
+function myFunction()
+{
+			var i ;
+            times = 10;
+			for(i = 0; i < times; i++)
+			{
+				t1 = new Date().getTime();
+				var fileName = "1B.txt";
+				$.ajax({url: fileName,
+				success: success_callback,
+				error: error_callback,
+				cache: false,
+				ifModified: true,
+				async: false});
+			}
+
+			 $.ajax({
+        		success: myGraph,
+        		async: false
+    		});
+			
+	
+	
+}
+
+function myGraph()
+{
+	var ctx = document.getElementById('myChart').getContext('2d');
+	var chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'line',
+
+    // The data for our dataset
+    data: {
+        labels: ["1B", "1B", "1B", "1B", "1B", "1B", "1B", 	"1B", "1B", "1B"],
+        datasets: [{
+            label: "File Size",
+            fill: false,
+            borderColor: 'rgb(255, 99, 132)',
+            data: [results[0], results[1],results[2], results[3], results[4], results[5], results[6], results[7], results[8], results[9]],
+        }]
+    },
+    
+    // Configuration options go here
+    options: {
+    	scales: { 
+    	yAxes: [{ 
+     	scaleLabel: { 
+     	display: true, 
+     	labelString: 'Latency(Second)' 
+     			} 
+   	 		}], 
+   	 	xAxes: [{ 
+     	scaleLabel: { 
+     	display: true, 
+     	labelString: 'File size' 
+     			} 
+   	 		}]	
+    	}  
+    }
+});
+	//console.log(throughput1 + "-------------" + throughput2);
+}
+
+// $(document).ready(function(){
+// 	$("button").click(myFunction);
+// })
+
+
+</script>
+
+</body>
+
+</html>
